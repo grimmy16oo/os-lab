@@ -37,11 +37,18 @@ public class RoundRobin {
 
         Queue<Process> queue = new LinkedList<>(processes);
 
+        ArrayList<String> gantt = new ArrayList<>();
+        ArrayList<Integer> startTimes = new ArrayList<>();
+
         int time = 0;
 
         while (!queue.isEmpty()) {
 
             Process p = queue.poll();
+
+            // Record Gantt Chart
+            gantt.add(p.name);
+            startTimes.add(time);
 
             // First time getting CPU
             if (p.startTime == -1)
@@ -64,16 +71,43 @@ public class RoundRobin {
             }
         }
 
+        // Gantt Chart
+        System.out.println("\nGantt Chart:");
+
+        for (int i = 0; i < gantt.size(); i++)
+            System.out.print("-------");
+        System.out.println("-");
+
+        for (String s : gantt)
+            System.out.printf("| %-3s ", s);
+        System.out.println("|");
+
+        for (int i = 0; i < gantt.size(); i++)
+            System.out.print("-------");
+        System.out.println("-");
+
+        for (int t : startTimes)
+            System.out.printf("%-7d", t);
+        System.out.println(time);
+
+        // Process Table
+        double totalWT = 0;
+
         System.out.println("\nProcess\tBurst Time\tStart Time\tEnd Time\tWaiting Time");
 
         for (Process p : processes) {
+
             System.out.printf("%s\t%d\t\t%d\t\t%d\t\t%d\n",
                     p.name,
                     p.burstTime,
                     p.startTime,
                     p.endTime,
                     p.waitingTime);
+
+            totalWT += p.waitingTime;
         }
+
+        System.out.printf("\nAverage Waiting Time = %.2f\n", totalWT / n);
 
         sc.close();
     }

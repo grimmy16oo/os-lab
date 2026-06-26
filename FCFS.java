@@ -37,14 +37,14 @@ public class fcfs {
         System.out.println("\nGantt Chart:");
         System.out.print("|");
 
-        ArrayList<Integer> times = new ArrayList<>();
+        ArrayList<Integer> granttTimes = new ArrayList<>();
 
         for (Process pr : p) {
 
             if (time < pr.at)
                 time = pr.at;   // CPU waits if no process has arrived
 
-            times.add(time);
+            granttTimes.add(time);
 
             System.out.print(" P" + pr.pid + " |");
 
@@ -55,11 +55,11 @@ public class fcfs {
             pr.wt = pr.tat - pr.bt;
         }
 
-        times.add(time);
+        granttTimes.add(time);
 
         System.out.println();
 
-        for (int t : times)
+        for (int t : granttTimes)
             System.out.print(t + "\t");
 
         System.out.println();

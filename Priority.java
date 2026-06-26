@@ -14,7 +14,7 @@ class Process {
     }
 }
 
-public class PriorityScheduling {
+public class Priority {
 
     public static void main(String[] args) {
 
@@ -46,7 +46,8 @@ public class PriorityScheduling {
             int highestPriority = Integer.MAX_VALUE;
 
             // Find highest priority process among arrived processes
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) 
+            {
 
                 if (!p[i].completed && p[i].at <= time) {
 
@@ -85,7 +86,7 @@ public class PriorityScheduling {
         System.out.print("|");
 
         for (int id : processOrder)
-            System.out.print(" P" + id + " |");
+            System.out.print(" P" + id + " |" + "\t");
 
         System.out.println();
 
