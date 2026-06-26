@@ -2,36 +2,6 @@ import java.util.*;
 
 public class Optimal {
 
-    static int findVictim(int[] pages, ArrayList<Integer> frame, int index) {
-
-        int farthest = index;
-        int victim = -1;
-
-        for (int i = 0; i < frame.size(); i++) {
-
-            int j;
-
-            for (j = index; j < pages.length; j++) {
-
-                if (frame.get(i) == pages[j]) {
-
-                    if (j > farthest) {
-
-                        farthest = j;
-                        victim = i;
-                    }
-
-                    break;
-                }
-            }
-
-            if (j == pages.length)
-                return i;
-        }
-
-        return victim == -1 ? 0 : victim;
-    }
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -42,7 +12,6 @@ public class Optimal {
         int[] pages = new int[n];
 
         System.out.println("Enter page reference string:");
-
         for (int i = 0; i < n; i++)
             pages[i] = sc.nextInt();
 
@@ -55,27 +24,58 @@ public class Optimal {
 
         for (int i = 0; i < n; i++) {
 
-            if (memory.contains(pages[i])) {
+            int page = pages[i];
 
+            // Page Hit
+            if (memory.contains(page)) {
                 System.out.println(memory);
                 continue;
             }
 
             faults++;
 
+            // Empty frame available
             if (memory.size() < frames) {
+                memory.add(page);
+            }
 
-                memory.add(pages[i]);
+            // Memory full
+            else {
 
-            } else {
+                int index = -1;
+                int farthest = i + 1;
 
-                int pos = findVictim(pages, memory, i + 1);
-                memory.set(pos, pages[i]);
+                for (int j = 0; j < memory.size(); j++) {
+
+                    int k;
+
+                    // Find next use of memory[j]
+                    for (k = i + 1; k < n; k++) {
+                        if (pages[k] == memory.get(j))
+                            break;
+                    }
+
+                    // Page never used again
+                    if (k == n) {
+                        index = j;
+                        break;
+                    }
+
+                    // Farthest future use
+                    if (k > farthest) {
+                        farthest = k;
+                        index = j;
+                    }
+                }
+
+                memory.set(index, page);
             }
 
             System.out.println(memory);
         }
 
         System.out.println("Total Page Faults = " + faults);
+
+        sc.close();
     }
 }

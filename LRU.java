@@ -12,7 +12,6 @@ public class LRU {
         int[] pages = new int[n];
 
         System.out.println("Enter page reference string:");
-
         for (int i = 0; i < n; i++)
             pages[i] = sc.nextInt();
 
@@ -25,23 +24,27 @@ public class LRU {
 
         for (int page : pages) {
 
-            if (memory.contains(page)) {
-
-                memory.remove(Integer.valueOf(page));
-
-            } else {
-
+            // Page Fault
+            if (!memory.contains(page)) {
                 faults++;
 
+                // Memory Full
                 if (memory.size() == frames)
                     memory.remove(0);
+
+                memory.add(page);
             }
 
-            memory.add(page);
-
+            // Page Hit
+            else {
+                memory.remove(Integer.valueOf(page));
+                memory.add(page);
+            }
             System.out.println(memory);
         }
 
         System.out.println("Total Page Faults = " + faults);
+
+        sc.close();
     }
 }
