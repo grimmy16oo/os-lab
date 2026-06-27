@@ -4,26 +4,27 @@ class Philosopher extends Thread {
     Object leftFork;
     Object rightFork;
 
-    Philosopher(int id, Object leftFork, Object rightFork) {
+    Philosopher(int id, Object leftFork, Object rightFork) 
+    {
         this.id = id;
         this.leftFork = leftFork;
         this.rightFork = rightFork;
     }
 
-    public void run() {
-
-        try {
-
+    public void run() 
+    {
+        try 
+        {
             while (true) {
 
                 System.out.println("Philosopher " + id + " is Thinking");
 
-                synchronized (leftFork) {
-
+                synchronized (leftFork) 
+                {
                     System.out.println("Philosopher " + id + " picked LEFT fork");
 
-                    synchronized (rightFork) {
-
+                    synchronized (rightFork) 
+                    {
                         System.out.println("Philosopher " + id + " is Eating");
 
                         Thread.sleep(1000);
@@ -59,3 +60,7 @@ public class DiningNoDeadlock {
         }
     }
 }
+
+//The last philosopher picks the forks in the reverse order (right first, then left). 
+// This breaks the circular wait condition, so at least one philosopher can 
+// always obtain both forks, eat, and release them, allowing the others to proceed.
